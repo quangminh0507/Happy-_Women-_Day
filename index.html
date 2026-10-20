@@ -138,54 +138,52 @@
         .envelope {
             position: relative;
             width: 100%;
-            background: linear-gradient(135deg, #4a1525, #280b18);
-            border-radius: 16px;
-            border: 1px solid rgba(232, 165, 152, 0.3);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 117, 140, 0.2);
-            overflow: hidden;
+            background: transparent;
+            border-radius: 20px;
+            overflow: visible;
             transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .envelope-wrapper:hover .envelope {
             transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 117, 140, 0.3);
         }
 
-        /* Nắp phong thư khi chưa mở */
+        /* Bó hoa trên màn hình mở đầu */
         .cover-preview {
-            padding: 50px 30px;
+            padding: 20px 20px 35px;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 320px;
-            background: radial-gradient(circle, rgba(92, 25, 47, 0.8) 0%, rgba(35, 10, 20, 0.9) 100%);
+            min-height: 390px;
+            position: relative;
+            isolation: isolate;
         }
 
-        .wax-seal {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #ff4b5c, #990000);
+        .cover-preview::before {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            width: 290px;
+            height: 290px;
+            top: 15px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4), inset 0 0 10px rgba(255,255,255,0.3);
-            border: 3px solid #ffb703;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
+            background: radial-gradient(circle, rgba(255, 117, 140, 0.2), transparent 70%);
         }
 
-        .wax-seal i {
-            font-size: 32px;
-            color: #fff;
+        .bouquet-art {
+            width: min(100%, 310px);
+            height: auto;
+            overflow: visible;
+            filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.3));
+            transform-origin: 50% 85%;
+            animation: bouquet-sway 4s ease-in-out infinite;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 117, 140, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255, 117, 140, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 117, 140, 0); }
+        @keyframes bouquet-sway {
+            0%, 100% { transform: rotate(-2deg); }
+            50% { transform: rotate(2deg); }
         }
 
         .tap-instruction {
@@ -193,6 +191,7 @@
             color: var(--rose-gold);
             letter-spacing: 1px;
             animation: blink 1.5s infinite;
+            text-shadow: 0 2px 12px rgba(15, 5, 29, 0.8);
         }
 
         @keyframes blink {
@@ -204,10 +203,12 @@
         .letter-content {
             display: none;
             padding: 40px 35px;
-            background: rgba(20, 8, 30, 0.85);
+            background: linear-gradient(145deg, rgba(57, 20, 43, 0.94), rgba(20, 8, 30, 0.94));
             backdrop-filter: blur(15px);
             border-radius: 16px;
             position: relative;
+            border: 1px solid rgba(232, 165, 152, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45), 0 0 25px rgba(255, 117, 140, 0.12);
             animation: fadeIn 0.8s ease forwards;
         }
 
@@ -401,6 +402,8 @@
         @media (max-width: 600px) {
             .header-title h1 { font-size: 1.6rem; }
             .header-title h2 { font-size: 2.2rem; }
+            .cover-preview { padding: 15px 10px 25px; min-height: 340px; }
+            .bouquet-art { width: min(100%, 270px); }
             .letter-content { padding: 25px 20px; }
             .recipient-label, .recipient-input { font-size: 1.3rem; }
             .btn { width: 100%; justify-content: center; }
@@ -425,22 +428,92 @@
             <h1>20 - 10</h1>
         </div>
 
-        <!-- Khung phong thư 3D -->
+        <!-- Bó hoa gửi lời chúc -->
         <div class="envelope-wrapper" id="envelopeWrapper">
             <div class="envelope">
-                <!-- Mặt ngoài khi chưa mở -->
+                <!-- Bó hoa trên màn hình mở đầu -->
                 <div class="cover-preview" id="coverPreview">
-                    <div class="wax-seal">
-                        <i class="fa-solid fa-rose"></i>
-                    </div>
-                    <p class="tap-instruction">Mở phong thư gửi trao lời chúc <i class="fa-solid fa-arrow-right"></i></p>
+                    <svg class="bouquet-art" viewBox="0 0 300 280" role="img" aria-label="Bó hoa nhiều màu được gói giấy">
+                        <defs>
+                            <linearGradient id="wrap" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0" stop-color="#f8d9b8"/>
+                                <stop offset="1" stop-color="#d88982"/>
+                            </linearGradient>
+                            <linearGradient id="petalPink" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0" stop-color="#ffd0dc"/>
+                                <stop offset="1" stop-color="#f04f79"/>
+                            </linearGradient>
+                            <linearGradient id="petalPeach" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0" stop-color="#ffe2a8"/>
+                                <stop offset="1" stop-color="#ff8b72"/>
+                            </linearGradient>
+                        </defs>
+                        <g fill="none" stroke="#64855c" stroke-width="5" stroke-linecap="round">
+                            <path d="M148 132 135 237M151 130 164 237M129 142 150 237M173 142 155 237M107 151 146 237M195 149 160 237"/>
+                        </g>
+                        <g fill="#84a978">
+                            <path d="M132 181c-27-28-45-12-35 3 9 13 23 12 35-3Z"/>
+                            <path d="M165 190c24-27 43-14 34 2-8 14-21 14-34-2Z"/>
+                            <path d="M112 205c-22-20-36-7-27 6 8 11 18 9 27-6Z"/>
+                            <path d="M183 210c20-21 35-9 26 4-8 11-18 10-26-4Z"/>
+                            <path d="M145 163c-20-25-38-16-31 0 6 13 20 14 31 0Z"/>
+                            <path d="M159 164c19-25 37-16 30 0-6 13-19 14-30 0Z"/>
+                        </g>
+                        <g>
+                            <g transform="translate(105 103)">
+                                <circle r="25" fill="url(#petalPink)"/>
+                                <circle cx="-10" cy="-5" r="11" fill="#ffb3c7"/>
+                                <circle cx="8" cy="-9" r="12" fill="#ff8cab"/>
+                                <circle cx="9" cy="9" r="12" fill="#f75f89"/>
+                                <circle cx="-9" cy="10" r="11" fill="#ff9bb5"/>
+                                <circle r="8" fill="#ffe3a5"/>
+                            </g>
+                            <g transform="translate(151 76)">
+                                <circle r="29" fill="url(#petalPeach)"/>
+                                <circle cx="-12" cy="-7" r="13" fill="#ffe7ad"/>
+                                <circle cx="9" cy="-12" r="14" fill="#ffb37e"/>
+                                <circle cx="13" cy="9" r="13" fill="#ff8c72"/>
+                                <circle cx="-9" cy="13" r="13" fill="#ffc18c"/>
+                                <circle r="9" fill="#fff0bb"/>
+                            </g>
+                            <g transform="translate(199 105)">
+                                <circle r="25" fill="url(#petalPink)"/>
+                                <circle cx="-10" cy="-5" r="11" fill="#ffb3c7"/>
+                                <circle cx="8" cy="-9" r="12" fill="#ff8cab"/>
+                                <circle cx="9" cy="9" r="12" fill="#f75f89"/>
+                                <circle cx="-9" cy="10" r="11" fill="#ff9bb5"/>
+                                <circle r="8" fill="#ffe3a5"/>
+                            </g>
+                            <g transform="translate(127 143) scale(.78)">
+                                <circle r="24" fill="#fff0b5"/>
+                                <circle cx="-10" cy="-5" r="11" fill="#fff8d8"/>
+                                <circle cx="8" cy="-9" r="12" fill="#ffd66f"/>
+                                <circle cx="9" cy="9" r="12" fill="#ffb847"/>
+                                <circle cx="-9" cy="10" r="11" fill="#ffe28a"/>
+                                <circle r="7" fill="#fff4c7"/>
+                            </g>
+                            <g transform="translate(178 144) scale(.8)">
+                                <circle r="24" fill="#e7b8ff"/>
+                                <circle cx="-10" cy="-5" r="11" fill="#f2d9ff"/>
+                                <circle cx="8" cy="-9" r="12" fill="#ca8bea"/>
+                                <circle cx="9" cy="9" r="12" fill="#b76bd6"/>
+                                <circle cx="-9" cy="10" r="11" fill="#dda9f0"/>
+                                <circle r="7" fill="#fff0b5"/>
+                            </g>
+                        </g>
+                        <path d="m91 143 31 99q28 17 58 0l31-99q-59 28-120 0Z" fill="url(#wrap)" stroke="#f5c7b4" stroke-width="2"/>
+                        <path d="m91 143 51 100 9-92-24-24Z" fill="#fff0d7" opacity=".75"/>
+                        <path d="m211 143-51 100-9-92 24-24Z" fill="#c9797d" opacity=".55"/>
+                        <path d="M135 228c-10 9-12 22-2 28 8 5 15-4 17-12 3 9 11 16 18 10 9-8 3-20-8-27l-11 9-14-8Z" fill="#c94369" stroke="#f4b0a5" stroke-width="2"/>
+                    </svg>
+                    <p class="tap-instruction">Chạm vào bó hoa để nhận lời chúc <i class="fa-solid fa-arrow-right"></i></p>
                 </div>
 
                 <!-- Bức thư bên trong khi click mở -->
                 <div class="letter-content" id="letterContent">
                     <div class="recipient-box">
                         <span class="recipient-label">Gửi</span>
-                        <input type="text" class="recipient-input" id="recipientName" value="Bạn" placeholder="Nhập tên..." title="Nhấn vào để thay đổi tên">
+                        <input type="text" class="recipient-input" id="recipientName" value="Em" placeholder="Nhập tên..." title="Nhấn vào để thay đổi tên">
                         <i class="fa-solid fa-pen" style="font-size: 0.8rem; color: rgba(255,255,255,0.4); margin-left: 5px;"></i>
                     </div>
 
@@ -464,7 +537,7 @@
         </div>
 
         <div class="footer-text">
-            Chúc một ngày 20/10 ngập tràn niềm vui, nụ cười và những điều tuyệt vời nhất!
+            Chúc em có một ngày 20/10 thật vui và nhiều điều dễ thương!
         </div>
     </div>
 
@@ -476,31 +549,31 @@
                 <i class="fa-solid fa-gift"></i>
             </div>
             <h3 id="cardTitle">Món Quà Tinh Thần</h3>
-            <p id="cardContent">Chúc bạn luôn giữ trọn niềm vui, mỗi ngày bước đi đều có ánh nắng ấm áp đồng hành và gặt hái thật nhiều thành công!</p>
+            <p id="cardContent">Chúc em có một ngày 20/10 vui vẻ, làm gì cũng thuận lợi và có thời gian dành cho những điều mình thích nhé!</p>
             <button class="btn btn-primary" id="modalOkBtn" style="width: 100%; justify-content: center;">Nhận Lời Chúc</button>
         </div>
     </div>
 
     <script>
-        // Danh sách các lời chúc mượt mà, sâu sắc và tự nhiên
+        // Các lời chúc 20/10
         const wishes = [
-            `Xin gửi những lời chúc tốt đẹp nhất nhân ngày Phụ nữ Việt Nam 20/10!<br><br>Cảm ơn bạn vì luôn mang đến năng lượng tích cực, sự chu đáo và nét dịu dàng rất riêng. Chúc bạn luôn an yên trong tâm trí, tự tin trong từng bước đi và lúc nào cũng rạng rỡ, ngập tràn hạnh phúc bên những người thân yêu.`,
+            `Chúc em ngày 20/10 vui vẻ nhé! Cảm ơn em vì đã luôn quan tâm và ở bên mọi người. Mong em có một ngày thật thoải mái, làm những điều mình thích và nhận được thật nhiều lời chúc dễ thương.`,
             
-            `Nhân ngày 20/10, chúc bạn một ngày thật ngọt ngào, thong dong và trọn vẹn niềm vui!<br><br>Mong rằng hành trình phía trước của bạn luôn ngập tràn ánh nắng, công việc thuận lợi, bình an và mỗi ngày trôi qua đều là một mảnh ghép rực rỡ trong cuộc sống.`,
+            `Nhân ngày 20/10, chúc em luôn vui vẻ, khỏe mạnh và gặp nhiều may mắn. Mong công việc và những dự định của em đều tiến triển thật tốt.`,
             
-            `Gửi tới bạn những giai điệu êm đềm và lời chúc chân thành nhất ngày 20/10.<br><br>Chúc bạn luôn yêu thương bản thân, tự tin theo đuổi những giấc mơ của riêng mình và luôn có đủ sự kiên cường lẫn dịu dàng để gặt hái thật nhiều thành công!`,
+            `Chúc em có một ngày 20/10 thật vui bên gia đình, bạn bè và những người em quý mến. Nhớ dành chút thời gian nghỉ ngơi và chiều chuộng bản thân nữa nhé!`,
             
-            `Một ngày 20/10 thật nhiều nụ cười và hoa thắm gửi đến bạn!<br><br>Cảm ơn sự hiện diện tuyệt vời của bạn. Chúc bạn luôn giữ vững tinh thần lạc quan, luôn xinh đẹp theo cách riêng của mình và lúc nào cũng được yêu thương, trân trọng.`,
+            `Chúc mừng ngày 20/10! Mong em luôn giữ được sự tự tin, thoải mái là chính mình và có thật nhiều ngày vui trong thời gian tới.`,
             
-            `Chúc bạn có một ngày Phụ nữ Việt Nam ấm áp và đầy ắp kỉ niệm đẹp!<br><br>Mong rằng vướng bận sẽ lùi xa, nhường chỗ cho sự bình yên, may mắn và những điều ngọt ngào nhất tìm đến bên bạn mỗi ngày.`
+            `Ngày 20/10 vui vẻ nha em. Chúc em mọi việc thuận lợi, gặp nhiều người tốt và lúc nào cũng có lý do để mỉm cười.`
         ];
 
         // Danh sách thẻ may mắn bất ngờ
         const luckyCards = [
-            { title: "Thẻ Bình An", text: "Mong tâm trí bạn luôn nhẹ nhàng, trút bỏ mọi muộn phiền và luôn tìm thấy sự thong dong trong tâm hồn." },
-            { title: "Thẻ Tự Tin", text: "Bạn tuyệt vời hơn những gì bạn nghĩ! Hãy luôn tự tin vào giá trị và vẻ đẹp riêng của chính mình." },
-            { title: "Thẻ Rạng Rỡ", text: "Nụ cười của bạn là điều vô giá. Chúc bạn luôn giữ trọn nụ cười rạng rỡ trên môi dù ở bất kỳ đâu!" },
-            { title: "Thẻ May Mắn", text: "Chúc cho những dự định sắp tới của bạn đều thuận buồm xuôi gió và gặt hái được những kết quả ngọt ngào nhất." }
+            { title: "Thẻ Nghỉ Ngơi", text: "Nhắc em dành chút thời gian nghỉ ngơi hôm nay, làm điều gì đó khiến em thấy vui nhé." },
+            { title: "Thẻ Tự Tin", text: "Chúc em luôn tự tin với lựa chọn của mình. Cứ đi từng bước theo cách em thấy phù hợp nhé." },
+            { title: "Thẻ Niềm Vui", text: "Chúc hôm nay em gặp được vài chuyện vui nho nhỏ và có một ngày thật dễ chịu." },
+            { title: "Thẻ May Mắn", text: "Chúc những dự định sắp tới của em diễn ra suôn sẻ. Cố lên, em làm được mà!" }
         ];
 
         let currentWishIndex = 0;
